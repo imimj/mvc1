@@ -20,20 +20,17 @@ public class MemberLoginController implements Controller{
 		
 		String user_id=request.getParameter("user_id");
 		String password=request.getParameter("password");
-		System.out.println("user_id : "+user_id+ "password: "+password);
 		MemberVO vo = new MemberVO();
 		vo.setId(user_id);
 		vo.setPass(password);
 		
 		MemberDAO dao=new MemberDAO();
-		System.out.println("!!!"+vo.toString());
 		String user_name=dao.memberLogin(vo);
 		if(user_name!=null&& !"".equals(user_name)) {
 			HttpSession session=request.getSession();
 			session.setAttribute("userId", user_id);
 			session.setAttribute("userName", user_name);
 		}else {
-			System.out.println("111122222");
 			request.getSession().setAttribute("userId", "");
 			request.getSession().setAttribute("userName", "");
 			request.getSession().setAttribute("msg", "사용자 정보가 올바르지 않습니다");
