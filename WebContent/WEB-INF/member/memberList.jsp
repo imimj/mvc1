@@ -78,7 +78,7 @@
 			    <th>전화번호</th>
 			    <th>삭제</th>
 		      </tr>
-		    </thead>
+		    </thead> 
 		    <tbody>
 			  <c:forEach var="vo" items="${list}">
 			    	  <tr>
