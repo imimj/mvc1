@@ -83,10 +83,26 @@ public class MemberDAO {
    // 회원가입(파일 업로드O)
    public int memberInsertFile(MemberVO vo) {
 	   SqlSession session=sqlSessionFactory.openSession();
-	   System.out.println(vo.toString());
 	   int cnt=session.insert("memberInsertFile", vo);
 	   session.commit();
 	   session.close();//반납
+	   return cnt;
+   }
+   
+   //파일 삭제
+   public int memberDeleteFile(int num) {
+	   SqlSession session=sqlSessionFactory.openSession();
+	   int cnt=session.update("memberDeleteFile",num);
+	   session.commit();
+	   session.close();
+	   return cnt;
+   }  
+   //파일 업데이트
+   public int memberUpdateFile(MemberVO vo) {
+	   SqlSession session=sqlSessionFactory.openSession();
+	   int cnt=session.update("memberUpdateFile",vo);
+	   session.commit();
+	   session.close();
 	   return cnt;
    }
 }

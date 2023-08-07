@@ -54,4 +54,16 @@
         #{filename}
         )       
     </insert>
+    
+    <update id="memberDeleteFile" parameterType="Integer">
+         update member1 
+         set filename=''
+         where num=#{num}	 
+    </update>
+    
+    <update id="memberUpdateFile" parameterType="memberVO">
+         update member1 
+         set age=#{age}, email=#{email}, phone=#{phone}, filename=#{filename}
+         where num=#{num}	 
+    </update>
 </mapper>

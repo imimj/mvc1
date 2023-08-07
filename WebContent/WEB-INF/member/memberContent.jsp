@@ -17,8 +17,26 @@
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js'></script>
 <script type="text/javascript">
 	function update(){
-		document.form1.action="<c:url value='memberUpdate.do'/>";
-		document.form1.submit();
+		if($('#file').val()!=''){	//첨부 파일이 있을 경우
+			var formData=new FormData();
+			formData.append("file",$("input[name=file]")[0].files[0]); //첫번째 파일 객체의 첫번째 파일을 가져와 form에 append
+			$.ajax({
+				url:"<c:url value='/fileAdd.do'/>",
+				type:"post",
+				data: formData,  
+				processData : false, //ajax로 파일 업로드 할때는 이거랑 밑의 contentType을 false로 같이 써주기 
+				contentType : false, 
+				success : function(data){	//업로드 된 실제파일 이름을 전달받기. 보낸 파일 이름과 업로드 되어서 저장된 파일 이름은 다를 수 있음. 파일 이름이 겹칠 수도 있어서
+					$('#filename').val(data);
+					document.form1.action="<c:url value='/memberUpdate.do'/>?mode=fupdate";  //text데이터를 저장하는 부분. 
+					document.form1.submit();	//num, age, email, phone, filname
+				},
+				error: function(){alert("error");}
+			})		
+		}else{	//첨부 파일이 없을 경우
+			document.form1.action="<c:url value='/memberUpdate.do'/>?mode=update";  //text데이터를 저장하는 부분
+			document.form1.submit();	//num, age, email, phone
+		}
 	}
 	function frmreset(){
 		document.form1.reset();
@@ -26,6 +44,10 @@
 	}
 	function getFile(filename){
 		location.href="<c:url value='/fileGet.do'/>?filename="+filename;
+	}
+	function delFile(num, filname){
+		alert("!!!");
+		location.href="<c:url value='/fileDel.do'/>?num="+num+"&filename="+filname;
 	}
 </script>
 </head>
@@ -47,6 +69,7 @@
     <div class="panel-body">
     	<form id="form1" name="form1" class="form-horizontal" method="post">
 	    	<input type="hidden" name="num" value="${vo.num}"/>
+	    	<input type="hidden" name="filename" id="filename" value="">
 	    	<div class="form-group">
 	    		<label class="control-label col-sm-2">번호:</label>
 	    		<div class="col-sm-10">
@@ -97,7 +120,7 @@
 	    				<a href="javascript:getFile('${vo.filename}')"><c:out value='${vo.filename}'/></a>
 	    			</c:if>
 	    			<c:if test="${sessionScope.userId !=null && sessionScope.userId==vo.id && vo.filename !=null && vo.filename !=''}">
-	    				<span class="glyphicon glyphicon-remove"></span>
+	    				<a href="javascript:delFile('${vo.num}','${vo.filename}')"><span class="glyphicon glyphicon-remove"></span></a>
 	    			</c:if>
 	    		</div>
 	    	</div>  
