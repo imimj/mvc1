@@ -8,6 +8,7 @@ public class MemberVO {
 	 private int age;
 	 private String email;
 	 private String phone;
+	 private String filename;
 	 public MemberVO() {   }
 	 
 	public MemberVO(String id, String pass, String name, int age, String email, String phone) {
@@ -71,10 +72,20 @@ public class MemberVO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [num=" + num + ", id=" + id + ", pass=" + pass + ", name=" + name + ", age=" + age + ", email="
-				+ email + ", phone=" + phone + "]";
+				+ email + ", phone=" + phone + ", filename=" + filename + "]";
 	}
-	 
+
+	
 }

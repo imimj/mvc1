@@ -30,7 +30,7 @@ public class MemberDAO {
 	   session.close();//반납
 	   return list;
    } 
-   // 회원가입
+   // 회원가입(파일 업로드x)
    public int memberInsert(MemberVO vo) {
 	   SqlSession session=sqlSessionFactory.openSession();
 	   int cnt=session.insert("memberInsert", vo);
@@ -67,6 +67,27 @@ public class MemberDAO {
 	   String user_name=session.selectOne("memberLogin", vo);
 	   session.close();
 	   return user_name; 
+   }
+   
+   //중복확인
+   public String memberDbcheck(String id) {
+	   SqlSession session=sqlSessionFactory.openSession();
+	   String dbId=session.selectOne("memberDbcheck",id);
+//	   String idDouble="NO";
+//	   if(dbId!=null) {
+//		   idDouble="YES";
+//	   }
+	   return dbId;  //YES(중복), NO(중복아님);
+   }
+ 
+   // 회원가입(파일 업로드O)
+   public int memberInsertFile(MemberVO vo) {
+	   SqlSession session=sqlSessionFactory.openSession();
+	   System.out.println(vo.toString());
+	   int cnt=session.insert("memberInsertFile", vo);
+	   session.commit();
+	   session.close();//반납
+	   return cnt;
    }
 }
 

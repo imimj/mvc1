@@ -25,6 +25,11 @@ public class MemberInsertController implements Controller{
 		//파라메터수집(VO)
 		//MemberVO vo=new MemberVO(id, pass, name, age, email, phone);
 		MemberVO vo=new MemberVO();
+		if(request.getParameter("mode").equals("fadd")) {
+			System.out.println("11111");
+			String filename=request.getParameter("filename");
+			vo.setFilename(filename);
+		}
 		vo.setId(id);
 		vo.setPass(pass);
 		vo.setName(name);
@@ -32,7 +37,12 @@ public class MemberInsertController implements Controller{
 		vo.setEmail(email);
 		vo.setPhone(phone);			
 	    MemberDAO dao=new MemberDAO();
-	    int cnt=dao.memberInsert(vo);
+	    int cnt=-1;
+	    if(request.getParameter("mode").equals("fadd")) {
+	    	cnt=dao.memberInsertFile(vo);	//파일 이름을 저장해야 하는경우
+	    }else {
+	    	cnt=dao.memberInsert(vo);		//파일 이름 저장 안하는 경우
+	    }
 	    //PrintWriter out=response.getWriter();
 	    String nextPage=null;
 	    if(cnt>0) {
